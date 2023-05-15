@@ -31,7 +31,7 @@ class SessionController extends Controller
             // return 'sukses';
             if($request->has('rememberme')) {
                 Cookie::queue('rmbremail', $request->email, 4320);
-                Cookie::queue('rmbrpwd', $request->password, 4320);
+                // Cookie::queue('rmbrpwd', $request->password, 4320);
             }
             return redirect('menu')->with('success', Auth::user()->name . 'Telah berhasil login');
         }else{

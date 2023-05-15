@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\HalamanController;
-
+use App\Http\Controllers\MateriController;
+use App\Http\Controllers\BabController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,4 +30,5 @@ Route::get('/autentikasi/register', [SessionController::class,  'register'])->mi
 Route::post('/autentikasi/create', [SessionController::class,  'create'])->middleware('isUser');
 Route::get('/menu', [HalamanController::class,  'index'])->middleware('isLogin');
 
-// Route::get('menu', MenuController::class, 'index');
+Route::get('/materi', [MateriController::class, 'index'])->middleware('isLogin')->name('materi');
+Route::get('/bab1', [BabController::class, 'index'])->middleware('isLogin')->name('bab1');

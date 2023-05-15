@@ -1,4 +1,4 @@
-@extends('layout.menu')
+@extends('layout.komponen')
 
 
 <section class="vh-100">
@@ -25,9 +25,7 @@
           <!-- Password input -->
           <div class="form-outline mb-3">
             <input type="password" name='password' class="form-control form-control-lg"
-              placeholder="Masukkan password" @if (Cookie::has('rmbrpwd')) value="{{ Cookie::get('rmbrpwd') }}"
-                
-              @endif/>
+              placeholder="Masukkan password"/>
             <label class="form-label"  for="password">Password</label>
           </div>
 
