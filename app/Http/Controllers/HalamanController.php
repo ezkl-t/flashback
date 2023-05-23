@@ -10,7 +10,7 @@ class HalamanController extends Controller
     public function index()
     {
         //
-        // $data = beli_game::all();
-        return view('layout/menu');
+        return view('halaman/home');
+        // return view('halaman/home');
     }
 }
