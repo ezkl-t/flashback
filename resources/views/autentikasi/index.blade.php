@@ -1,6 +1,6 @@
 @extends('layout.navbar')
 
-
+@section('konten')
 <section class="vh-100">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -56,7 +56,7 @@
     
   </div>
 </section>
-
+@endsection
 {{-- <div class="w-50 center rounded border px-3 py-3 mx-auto">
     <h1>Login</h1>
     <form action="/autentikasi/login" method="POST">

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\materi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 class HalamanController extends Controller
 {
@@ -10,7 +13,13 @@ class HalamanController extends Controller
     public function index()
     {
         //
-        return view('halaman/home');
-        // return view('halaman/home');
+        $data = materi::all();
+        return view('halaman/index')->with('data', $data);
+    }
+
+    public function create()
+    {
+        //
+        return view('halaman/create');
     }
 }

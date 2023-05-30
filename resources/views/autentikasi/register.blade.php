@@ -1,4 +1,4 @@
-@extends('layout.menu')
+@extends('layout.komponen')
 
 {{-- <div class="w-50 center rounded border px-3 py-3 mx-auto">
     <h1>Login</h1>

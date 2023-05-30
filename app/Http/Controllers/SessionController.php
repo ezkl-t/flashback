@@ -31,9 +31,9 @@ class SessionController extends Controller
             // return 'sukses';
             if($request->has('rememberme')) {
                 Cookie::queue('rmbremail', $request->email, 4320);
-                Cookie::queue('rmbrpwd', $request->password, 4320);
+                // Cookie::queue('rmbrpwd', $request->password, 4320);
             }
-            return redirect('menu')->with('success', Auth::user()->name . 'Telah berhasil login');
+            return redirect('index')->with('success', Auth::user()->name . 'Telah berhasil login');
         }else{
             // return 'gagal';
             return redirect('autentikasi')->withErrors('Email atau password yang dimasukkan salah');
@@ -73,7 +73,7 @@ class SessionController extends Controller
 
         if(Auth::attempt($infologin)) {
             // return 'sukses';
-            return redirect('menu')->with('success', Auth::user()->name . 'Telah berhasil login');
+            return redirect('index')->with('success', Auth::user()->name . 'Telah berhasil login');
         }else{
             // return 'gagal';
             return redirect('autentikasi')->withErrors('Email atau password yang dimasukkan salah');
