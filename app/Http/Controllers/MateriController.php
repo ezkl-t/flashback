@@ -2,135 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Materi;
 use Illuminate\Http\Request;
-use App\Models\materi;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class MateriController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
-        $data = materi::orderBy('id', 'asc')->paginate(6);
-        return view('halaman/materi')->with('data', $data);
+        $items  = Materi::all();
+        return view('materi.index', [
+            'items' => $items
+        ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-        return view('halaman/create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-        Session::flash('judul_bab', $request->nama);
-        Session::flash('sinopsis', $request->nama);
-        Session::flash('isi_materi', $request->nama);
-
-        $request->validate([
-            'judul_bab' => 'required',
-            'sinopsis' => 'required',
-            'isi_materi'=> 'required',
-            'foto'=> 'required|mimes:jpeg,jpg,png',
-        ]);
-
-        $foto_file = $request->file('foto');
-        $foto_ekstensi = $foto_file->extension();
-        $foto_nama = date('ymdhis') . "." . $foto_ekstensi;
-        $foto_file->move(public_path('img'), $foto_nama);
-
-        $data = [
-            'judul_bab' => $request->input('judul_bab'),
-            'sinopsis' => $request->input('sinopsis'),
-            'isi_materi'=> $request->input('isi_materi'),
-            'foto'=>$foto_nama,
-        ];
-        materi::create($data);
-        return redirect('materi')->with('success', 'Berhasil menambahkan data');
+        $data = $request->all();
+        $data['image'] = $request->file('image')->store('materi', 'public');
+        Materi::create($data);
+        session()->flash('success', 'Artikel Berhasil Ditambahkan');
+        return redirect()->back();
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function destroy($id)
     {
-        //
-        $data = materi::where('id', $id)->first();
-        return view('halaman/show')->with('data', $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-        $data = materi::where('id', $id)->first();
-        return view('halaman.edit')->with('data', $data);
-        
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-        $request->validate([
-            'judul_bab' => 'required',
-            'sinopsis' => 'required',
-            'isi_materi'=> 'required',
-            // 'foto'=> 'required|mimes:jpeg,jpg,png',
-        ]);
-
-        $data = [
-            'judul_bab' => $request->input('judul_bab'),
-            'sinopsis' => $request->input('sinopsis'),
-            'isi_materi'=> $request->input('isi_materi'),
-            // 'foto'=>$foto_nama, 
-        ];
-
-        if($request->hasFile('foto')) {
-            $request->validate([
-                'foto'=> 'mimes:jpeg,jpg,png',
-            ]);
-            $foto_file = $request->file('foto');
-            $foto_ekstensi = $foto_file->extension();
-            $foto_nama = date('ymdhis') . "." . $foto_ekstensi;
-            $foto_file->move(public_path('img'), $foto_nama);
-
-            $data_foto = materi::where('id', $id)->first();
-            File::delete(public_path('img').'/'.$data_foto->foto);
-
-            $data = [
-                'foto'=>$foto_nama
-            ];
+        $materi = Materi::find($id);
+        if ($materi->image) {
+            Storage::delete('public/' . $materi->image);
         }
-        
-        materi::where('id', $id)->update($data);
-        return redirect('/materi')->with('success', 'Berhasil mengedit data');
+        $materi->delete();
+        session()->flash('success', 'Artikel berhasil dihapus.');
+        return redirect()->back();
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function update(Request $request, $id)
     {
-        //
-        $data = materi::where('id', $id)->first();
-        File::delete(public_path('img').'/'.$data->foto);
-        materi::where('id', $id)->delete();
-        return redirect('/materi')->with('success', 'Berhasil menghapus data');
+        $materi = Materi::find($id);
+        $validasiData = $request->validate([
+            'title' => 'required|max:255',
+            'image' => 'image|max:1024',
+            'description' => 'required',
+        ]);
+
+        $file = $request->file('image');
+        if ($file) {
+            if ($materi->image) {
+                Storage::delete('public/' . $materi->image);
+            }
+            $filename = 'materi/' . time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/', $filename);
+            $validasiData['image'] = $filename;
+        }
+
+        $materi->update($validasiData);
+        session()->flash('success', 'Artikel berhasil diupdate.');
+        return redirect()->back();
+    }
+    public function readmore($id)
+    {
+        $item = Materi::find($id); 
+
+        return view('materi.readmore', compact('item'));
     }
 }

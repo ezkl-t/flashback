@@ -1,39 +1,67 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\SessionController;
-use App\Http\Controllers\HalamanController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MateriController;
-use App\Http\Controllers\BabController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 
-Route::get('/materi', [MateriController::class, 'index']);
-Route::resource('materi', MateriController::class);
-Route::get('/materi/{id}', [MateriController::class, 'show']);
-// Route::get('/materi/create', [MateriController::class, 'create']);
+// Landing Page
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// Login dan Register
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login_proses', [LoginController::class, 'login_proses'])->name('login-proses');
 
 
-Route::get('/autentikasi', [SessionController::class,  'index'])->middleware('isUser');
-Route::post('/autentikasi/login', [SessionController::class,  'login'])->middleware('isUser');
-Route::get('/autentikasi/logout', [SessionController::class,  'logout']);
-Route::get('/autentikasi/register', [SessionController::class,  'register'])->middleware('isUser');
-Route::post('/autentikasi/create', [SessionController::class,  'create'])->middleware('isUser');
+Route::get('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/register-proses', [LoginController::class, 'register_proses'])->name('register-proses');
 
-// Route::get('/menu', [HalamanController::class,  'index'])->middleware('isLogin');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route::get('/bab1', [BabController::class, 'index'])->middleware('isLogin')->name('bab1');
+// grup admin
+// Route::group(['prefix' => 'admin', 'middleware' => ['auth'], 'as' => 'admin.'], function () {
+
+
+
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user', [HomeController::class, 'index'])->name('user.index');
+
+
+    // Dashboard User Admin
+
+    Route::get('/create', [HomeController::class, 'create'])->name('user.create');
+    Route::post('/store', [HomeController::class, 'store'])->name('user.store');
+
+    Route::get('/edit/{id}', [HomeController::class, 'edit'])->name('user.edit');
+    Route::post('/update/{id}', [HomeController::class, 'update'])->name('user.update');
+    Route::delete('/delete/{id}', [HomeController::class, 'delete'])->name('user.delete');
+
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+
+
+
+
+    // Materi
+    // Route::prefix('materi')->group(function () {
+    //     Route::get('/', [MateriController::class, 'index'])->name('materi.index');
+    //     Route::get('/create', [MateriController::class, 'create'])->name('materi.create');
+    //     Route::post('/store', [MateriController::class, 'store'])->name('materi.store');
+    //     Route::get('/edit/{id}', [MateriController::class, 'edit'])->name('materi.edit');
+    //     Route::post('/update/{id}', [MateriController::class, 'update'])->name('materi.update');
+    //     Route::delete('/delete/{id}', [MateriController::class, 'delete'])->name('materi.delete');
+    // });
+
+    Route::get('/materi', [MateriController::class, 'index'])->name('materi.index');
+    Route::match(['get', 'post'], '/materi-store', [MateriController::class, 'store'])->name('materi.store');
+
+
+    Route::get('/materi', [MateriController::class, 'index'])->name('materi.index');
+    Route::post('/materi', [MateriController::class, 'store'])->name('materi.store');
+    Route::delete('/materi/{id}', [MateriController::class, 'destroy'])->name('materi.destroy');
+    Route::put('/materi/{id}', [MateriController::class, 'update'])->name('materi.update');
+    Route::get('/readmore/materi/{id}', [MateriController::class, 'readmore'])->name('readmore.materi');
+});
