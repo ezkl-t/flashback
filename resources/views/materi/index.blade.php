@@ -221,7 +221,7 @@
                         </div>
 
             </section><!-- End Services Section -->
-
+            {{ $items->links() }}
             <footer>
                 <div class="container footer-bottom clearfix">
                     <div class="copyright">

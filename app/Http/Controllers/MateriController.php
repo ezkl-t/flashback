@@ -12,7 +12,7 @@ class MateriController extends Controller
 {
     public function index()
     {
-        $items  = Materi::all();
+        $items  = Materi::orderBy('title', 'asc')->paginate(3);
         return view('materi.index', [
             'items' => $items
         ]);

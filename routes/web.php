@@ -30,8 +30,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 
 
 // Login dan Register
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login_proses', [LoginController::class, 'login_proses'])->name('login-proses');
+Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('isGuest');
+Route::post('/login_proses', [LoginController::class, 'login_proses'])->name('login-proses')->middleware('isGuest');
 
 
 Route::get('/register', [LoginController::class, 'register'])->name('register');
@@ -51,7 +51,7 @@ Route::get('/readmore/materi/{id}', [MateriController::class, 'readmore'])->name
 
 
 // Kuis
-Route::get('/kuis/mulaikuis', [KuisController::class, 'index'])->name('kuis.index');
+Route::get('/kuis/mulaikuis', [KuisController::class, 'index'])->name('kuis.index')->middleware('isLogin');
 Route::post('/kuis/mulaikuis', [KuisController::class, 'store'])->name('mulaikuis.store');
 Route::delete('/mulaikuis/delete/{id}', [KuisController::class, 'destroy'])->name('mulaikuis.destroy');
 Route::get('layout/quis', [KuisController::class, 'index'])->name('menu.quis');

@@ -13,7 +13,7 @@ class KuisController extends Controller
 
     public function index()
     {
-        $items = KuisModel::all();
+        $items = KuisModel::orderBy('id', 'asc')->paginate(1);
         return view('kuis.index', [
             'items' => $items
         ]);
