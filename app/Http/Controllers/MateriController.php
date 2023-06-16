@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class MateriController extends Controller
 {
     public function index()
     {
-        $items  = Materi::orderBy('title', 'asc')->paginate(3);
+        $items  = Materi::all();
         return view('materi.index', [
             'items' => $items
         ]);

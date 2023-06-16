@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AdminLTE 3 | Log in</title>
+<title>Narasi | Log in</title>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
@@ -110,4 +110,90 @@ Remember Me
 @endif
 
 </body>
-</html>
+</html> --}}
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Option 1: CoreUI for Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.2.0/dist/css/coreui.min.css" rel="stylesheet" integrity="sha384-UkVD+zxJKGsZP3s/JuRzapi4dQrDDuEf/kHphzg8P3v8wuQ6m9RLjTkPGeFcglQU" crossorigin="anonymous">
+
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+            class="img-fluid" alt="Sample image">
+        </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <h1>Login</h1>
+          <form action="{{ route('login-proses') }}" method="POST">         
+            @csrf
+  
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <input type="email" name="email" class="form-control form-control-lg"
+                placeholder="Masukkan email" @if (Cookie::has('rmbremail')) value="{{ Cookie::get('rmbremail') }}"
+                  
+                @endif>
+              <label class="form-label" for="email">Email</label>
+            </div>
+  
+            <!-- Password input -->
+            <div class="form-outline mb-3">
+              <input type="password" name='password' class="form-control form-control-lg"
+                placeholder="Masukkan password">
+              <label class="form-label"  for="password">Password</label>
+            </div>
+  
+            <div class="d-flex justify-content-between align-items-center">
+              <!-- Checkbox -->
+              <div class="form-check mb-0">
+                <input class="form-check-input me-2"  type="checkbox" name="rememberme" id="rememberme" @if(Cookie::has('rmbremail')) checked @endif/>
+                <label class="form-check-label" for="rememberme">
+                  Ingat saya
+                </label>
+              </div>
+            </div>
+  
+            <div class="text-center text-lg-start mt-4 pt-2">
+              <button type="submit" class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+              <p class="small fw-bold mt-2 pt-1 mb-0">Belum punya akun? <a href="{{ route('register') }}"
+                  class="link-danger">Register</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  @if($message = Session::get('failed'))
+    <script>
+        Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '{{ $message }}',
+        })
+    </script>
+@endif
+
+@if($message = Session::get('success'))
+<script>
+    Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: 'Anda berhasil logout',
+    showConfirmButton: false,
+    timer: 1500
+    });
+</script>
+@endif
