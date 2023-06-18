@@ -24,7 +24,7 @@ use App\Models\Kuis;
 // Landing Page
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('dashboard');
 
 // Dashboard
 Route::get('/home', [HomeController::class, 'index'])->name('home.index');

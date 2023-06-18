@@ -50,8 +50,8 @@
             <h1 class="logo me-auto"><a href="index.html">Narasi Sejarah</a></h1>
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href=" {{ route('home.index') }}">Home</a></li>
-                    <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                    <li><a class="nav-link scrollto" href="{{ route('dashboard') }}">Home</a></li>
+                    {{-- <li><a class="nav-link scrollto" href="#services">Services</a></li> --}}
                     <li><a class="nav-link scrollto" href=" {{ route('logout') }}">Logout</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
@@ -177,29 +177,24 @@
                     <div class="col-lg-3 col-md-6 footer-links">
                         <h4>Useful Links</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{{ route('dashboard') }}">Home</a></li>
+                            
                         </ul>
                     </div>
 
                     <div class="col-lg-3 col-md-6 footer-links">
                         <h4>Our Services</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Materi</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Kuis</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Game</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Leaderboard</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{{ route('materi.index') }}">Materi</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{{ route('kuis.index') }}">Kuis</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{{ route('game') }}">Game</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{{ route('leaderboard') }}">Leaderboard</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-3 col-md-6 footer-links">
                         <h4>Our Social Networks</h4>
-                        <p>Discover the Past, Follow our Journey! Connect with us on social media for captivating
-                            historical narratives.<br>
-                            Find us on Narasi Sejarah's social media accounts.</p>
+                        <p></p>
                         <div class="social-links mt-3">
                             <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
                             <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
